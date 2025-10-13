@@ -1,0 +1,697 @@
+% HITSZ 实验报告模板（最终版：按用户要求的字体与字号）
+% 使用 XeLaTeX 编译: xelatex report.tex
+% 把校徽图片命名为 hitsz.png 并与 .tex 文件放在同一目录。
+
+\documentclass[11pt,a4paper]{article}
+\usepackage[scheme=chinese]{ctex}
+\usepackage{geometry}
+\geometry{left=2.4cm,right=2.4cm,top=2.2cm,bottom=2.2cm}
+\usepackage{float}
+\usepackage{titlesec}
+\usepackage{bm}
+\titleformat{\section}
+  {\Large\bfseries}
+  {\chinese{section}、}
+  {0em}
+  {}
+
+% 字体设置 - 使用 ctex 的方式
+\setmainfont{Times New Roman}
+% ctex 默认已设置中文字体，如需修改可使用：
+% \setCJKmainfont{SimSun}[BoldFont=SimHei]
+
+% 预定义字号命令
+\newcommand{\kaiXiaoEr}{\kaishu\fontsize{18pt}{22pt}\selectfont} % 小二
+\newcommand{\heiXiaoChu}{\heiti\fontsize{36pt}{40pt}\selectfont} % 小初号
+\newcommand{\heiSi}{\heiti\fontsize{14pt}{18pt}\selectfont} % 四号
+\newcommand{\heiSan}{\heiti\fontsize{16pt}{20pt}\selectfont} % 三号
+
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{varwidth}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{siunitx}
+
+\parindent=0pt
+\renewcommand{\arraystretch}{1.25}
+
+% 字段宽度
+\newlength{\fieldW}
+\setlength{\fieldW}{5.1cm}
+\newcommand{\fieldboxW}[1][\fieldW]{\makebox[#1]{\hrulefill}}
+
+\graphicspath{{graphic/}}
+
+\begin{document}
+
+% 页眉：logo 与右上文字等高显示
+\begin{tabular}{@{} p{0.4\textwidth} p{0.6\textwidth} @{} }
+  \raisebox{0pt}[2cm][2cm]{\includegraphics[height=2cm]{hitsz.png}} &
+  \parbox[c][2cm][c]{\linewidth}{\raggedleft {\kaiXiaoEr 实验与创新实践教育中心}\\}
+\\
+\end{tabular}
+
+\vspace{0.6cm}
+
+% 标题（黑体小初号）
+{\centering
+  {\heiXiaoChu 实验报告}\\[6pt]
+}
+
+\vspace{0.6cm}
+
+% 基本信息：标签与输入框均使用黑体四号
+\setlength{\fieldW}{\dimexpr0.23\textwidth-2\tabcolsep\relax}
+\newcommand{\fillfield}[1]{%
+  \underline{%
+    \makebox[\linewidth][c]{%
+      \strut % 保证行高，让下划线位置统一
+      % 1. 把内容存入一个临时盒子（box 0）来测量宽度
+      \sbox0{#1}%
+      % 2. 判断：如果内容宽度 > 列宽
+      \ifdim\wd0>\linewidth
+        % 则缩放到列宽
+        \resizebox{\linewidth}{!}{\usebox0}%
+      \else
+        % 否则直接显示原内容（哪怕是空的也不会报错）
+        \usebox0%
+      \fi
+    }%
+  }%
+}
+
+\begin{tabularx}{\textwidth}{@{} 
+    p{2.8cm}                  % 标签列收窄一点，留更多空间给内容
+    >{\centering\arraybackslash}X 
+    p{2.8cm}                  % 标签列收窄一点
+    >{\centering\arraybackslash}X 
+    @{}}
+    
+  {\heiSi 课程名称：} & {\heiSi \fillfield{电力电子系统建模与仿真}} 
+    & {\heiSi 专业-班级：} & {\heiSi \fillfield{xxxx}} \\
+    
+  {\heiSi 实验名称：} & {\heiSi \fillfield{三相升压独立式逆变器仿真实验}} 
+    & {\heiSi 学号：} & {\heiSi \fillfield{xxxxxxxxx}} \\
+    
+  {\heiSi 实验日期：} & {\heiSi \fillfield{2025年9月26日}} 
+    & {\heiSi 姓名：} & {\heiSi \fillfield{xxx}} \\
+    
+  {\heiSi 同组人：} & {\heiSi \fillfield{无}} 
+    & {\heiSi 报告总分数：} & {\heiSi \fillfield{}} \\ % 空内容也会有一条完整的横线
+\end{tabularx}
+
+\vspace{0.8cm}
+
+% 蓝色分割线
+{\color{blue}\rule{\textwidth}{3pt}}\\[6pt]
+
+% 教师评语标题（黑体三号）
+{\heiSan 教师评语：}\\[6pt]
+
+% 教师评语区域：去掉外框，仅保留左侧竖线与空白区域，内容字体为黑体三号
+\noindent
+\begin{tabular}{@{} p{0.03\textwidth} p{0.94\textwidth} @{} }
+  % 左侧细竖线
+  % 留白区域（供手写评语），字体大小以黑体三号为默认（但评语通常为手写，此处用于占位）
+  \vspace{0pt}\\
+\end{tabular}
+
+\vspace{8.0cm}
+
+% 签字区域：教师签字与日期采用黑体三号，靠右对齐
+\noindent\hfill
+\begin{tabular}{@{} r @{} p{6cm} @{}}
+  \heiSan 教师签字： & \rule{6cm}{0.4pt} \\
+  \heiSan 日期： & \rule{6cm}{0.4pt} \\
+\end{tabular}
+
+\section{实验目的}
+1. 熟悉三相升压独立式逆变器工作原理，探究闭环系统设计方法。
+
+2. 利用所学的小信号建模方法，推导出三相升压独立式逆变器的动态线性模型，并学会利用 Bode
+Diagram、Nyquist 等工具分析系统的特性，掌握三相升压独立式逆变器控制参数的 设计方法，并通过
+仿真验证。
+
+3. 培养学生规范的科研问题分析方法和解决思路，实现从硬件电路设计、系统建模、线性化 分析、控制
+系统设计、性能指标、稳定性分析等全方位一体化的能力提升。
+
+\section{实验设备及元器件}
+
+\begin{table}[htbp]
+\centering
+\caption{实验设备及元器件}
+\begin{tabularx}{\textwidth}{|c|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|}
+\hline
+\textbf{序号} & \textbf{模块名称} & \textbf{型号} & \textbf{参数及功能说明} \\
+\hline
+1 & PC机 & -- & -- \\
+\hline
+2 & 仿真软件 & Matlab & -- \\
+\hline
+\end{tabularx}
+\end{table}
+
+\section{实验线路及原理}
+本实验主电路为两级结构，前级为升压式转换器，后级为三相三线式全桥逆变器，前级
+作用为维持直流母线电压，后级功能在控制逆变器输出电压，控制架构如图 1 所示。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{image1.png}
+\caption{三相升压独立式逆变器控制架构}
+\end{figure}
+
+\newpage
+\section{主要设计参数}
+
+\begin{table}[H]
+\centering
+\caption{电路设计参数}
+\begin{tabular}{|c|c|}
+\hline
+\textbf{Item} & \textbf{Value} \\
+\hline
+DC Input Voltage $V_b$ & 70 V \\
+\hline
+DC bus Voltage $V_d$ & 100 V \\
+\hline
+Boost PWM $f_s$ & 40 kHz \\
+\hline
+Inverter PWM $f_s$ & 20 kHz \\
+\hline
+$C_b$ & 200 $\mu$F \\
+\hline
+$L_b$ & 660 $\mu$H \\
+\hline
+$C_{bus}$ & 940 $\mu$F \\
+\hline
+$L$ & 3 mH \\
+\hline
+$C$ & 200 $\mu$F \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{实验内容}
+\textbf{第一部分：硬件参数设计和仿真模型的调试}
+
+1. Boost DC/DC Converter 的硬件参数设计
+
+利用$V_d=V_b/(1-D)$，计算占空比$D$，解得$D=0.3$。令$D'=1-D=0.7$
+
+查阅资料可知，控制-输出传递函数$G_{\nu d}\left(s\right)$为：
+\begin{equation}
+  G_{\nu d}\left(s\right)=\frac{V_{g}}{D^{\prime2}}\frac{1-\frac{L}{RD^{\prime2}}s}{1+\frac{L}{D^{\prime2}R}s+\frac{LC}{D^{\prime2}}s^{2}}
+\end{equation}
+
+控制-电感电流传递函数$G_{id}\left(s\right)$为：
+\begin{equation}
+  G_{id}(s)=\frac{V_{o}CRs+2V_{o}}{R{D^{\prime}}^{2}+CLRs^{2}+Ls}
+\end{equation}
+电流-电压传递函数$G_{vi}\left(s\right)$为：
+\begin{equation}
+  G_{vi}(s)=\frac{R{D^{\prime}}^{2}-Ls}{D^{\prime}(2+CRs)}
+\end{equation}
+
+\subsection{右半平面零点频率}
+\begin{equation}
+f_{rhpz} = \frac{D'^2 R}{2\pi L} = \frac{0.7^2 \times 100}{2\pi \times 6.6\times10^{-4}} \approx \SI{11.84}{kHz}
+\end{equation}
+
+\subsection{谐振频率}
+\begin{equation}
+f_0 = \frac{D'}{2\pi\sqrt{LC}} = \frac{0.7}{2\pi\sqrt{6.6\times10^{-4} \times 9.4\times10^{-4}}} \approx \SI{141.2}{Hz}
+\end{equation}
+
+\subsection{带宽限制原则}
+\begin{itemize}
+\item 电流环带宽：$f_{ci} \leq \dfrac{f_s}{10} = \SI{4}{kHz}$
+\item 电压环带宽：$f_{cv} \leq \min\left(\dfrac{f_{rhpz}}{5}, \dfrac{f_0}{2}\right) \approx \min(\SI{2.37}{kHz}, \SI{70.6}{Hz})$
+\end{itemize}
+
+\subsection{电流环被控对象简化}
+在电流环带宽范围内，忽略高频极点，近似为：
+\begin{equation}
+G_{id}(s) \approx \frac{V_d}{sL} = \frac{100}{6.6\times10^{-4}s}
+\end{equation}
+
+\subsection{设计目标}
+\begin{itemize}
+\item 穿越频率：$f_{ci} = \SI{3}{kHz}$
+\item 相位裕度：$PM_i = 60^\circ$
+\end{itemize}
+
+\subsection{PI控制器设计}
+采用标准PI控制器形式：
+\begin{equation}
+G_{ci}(s) = K_{pi} + \frac{K_{ii}}{s}
+\end{equation}
+
+\subsubsection{确定控制器零点位置}
+设置控制器零点在穿越频率的$\dfrac{1}{3}$处：
+\begin{equation}
+\frac{K_{ii}}{K_{pi}} = 2\pi \times \frac{f_{ci}}{3} = 2\pi \times 1000 \approx 6283
+\end{equation}
+
+\subsubsection{计算被控对象在穿越频率处的增益}
+\begin{equation}
+|G_{id}(j2\pi f_{ci})| = \left|\frac{100}{j2\pi \times 3000 \times 6.6\times10^{-4}}\right| \approx \frac{100}{12.44} \approx 8.04
+\end{equation}
+
+\subsubsection{计算控制器在穿越频率处的增益}
+控制器在穿越频率处的增益应满足：
+\begin{equation}
+|G_{ci}(j2\pi f_{ci})| \cdot |G_{id}(j2\pi f_{ci})| = 1
+\end{equation}
+\begin{equation}
+|G_{ci}(j2\pi f_{ci})| = \frac{1}{8.04} \approx 0.124
+\end{equation}
+
+\subsubsection{计算PI参数}
+PI控制器在穿越频率处的增益为：
+\begin{equation}
+|G_{ci}(j2\pi f_{ci})| = K_{pi} \cdot \sqrt{1 + \left(\frac{K_{ii}/K_{pi}}{2\pi f_{ci}}\right)^2}
+\end{equation}
+
+代入已知关系：
+\begin{equation}
+0.124 = K_{pi} \cdot \sqrt{1 + \left(\frac{6283}{2\pi \times 3000}\right)^2} = K_{pi} \cdot \sqrt{1 + (0.333)^2} = K_{pi} \cdot 1.054
+\end{equation}
+
+解得：
+\begin{align}
+K_{pi} &\approx \frac{0.124}{1.054} \approx 0.118 \\
+K_{ii} &= K_{pi} \times 6283 \approx 0.118 \times 6283 \approx 741
+\end{align}
+
+\subsection{电流环参数调整}
+基于仿真结果和实际系统响应，对参数进行微调：
+\begin{itemize}
+\item 最终电流环PI参数：$K_{pi} = 0.04$，$K_{ii} = 75$
+\end{itemize}
+
+\subsection{电压环被控对象}
+考虑电流环闭环后的等效模型，在电压环带宽范围内，电流环可近似为单位增益：
+\begin{equation}
+G_{v,plant}(s) \approx G_{vd}(s)
+\end{equation}
+
+\subsection{设计目标}
+\begin{itemize}
+\item 穿越频率：$f_{cv} = \SI{150}{Hz}$（考虑RHP零点和谐振频率限制）
+\item 相位裕度：$PM_v = 60^\circ$
+\end{itemize}
+
+\subsection{PI控制器设计}
+采用标准PI控制器形式：
+\begin{equation}
+G_{cv}(s) = K_{pv} + \frac{K_{iv}}{s}
+\end{equation}
+
+\subsubsection{考虑RHP零点限制}
+右半平面零点会引入相位滞后，限制系统带宽：
+\begin{equation}
+f_{cv} \leq \frac{f_{rhpz}}{3} \approx \SI{3.95}{kHz}
+\end{equation}
+
+但实际受谐振频率限制更严格：
+\begin{equation}
+f_{cv} \leq \frac{f_0}{2} \approx \SI{70.6}{Hz}
+\end{equation}
+
+选择$f_{cv} = \SI{150}{Hz}$作为设计目标，需要通过仿真验证稳定性。
+
+\subsubsection{基于经验调整的参数}
+由于电压环被控对象复杂，难以通过解析方法精确计算，采用基于经典控制理论和经验的参数整定方法：
+\begin{itemize}
+\item 初始参数：$K_{pv} = 0.05$，$K_{iv} = 50$
+\item 通过仿真验证和微调
+\end{itemize}
+
+\subsection{电压环参数最终确定}
+基于仿真结果和稳定性分析：
+\begin{itemize}
+\item 最终电压环PI参数：$K_{pv} = 0.05$，$K_{iv} = 50$
+\end{itemize}
+
+2.搭建 Boost DC/DC Converter 仿真电路模型
+
+仿真模型如图所示：
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{image2.png}
+\caption{boost电路输出电压$V_{bus}$}
+\end{figure}
+
+3.调试 Boost DC/DC Converter 的仿真电路模型，实现输出指标，检验理论设计
+
+理论在负载为100$\Omega$时，输出电压$V_{bus}$应为100V，仿真结果如图所示：
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{image4.png}
+\caption{boost电路输出电压$V_{bus}$}
+\end{figure}
+经测量：
+$V_{bus} \approx 100V$，与理论值吻合。且输出电压纹波$\approx 0.1V$，符合设计要求。
+
+下图为PWM波形：
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{image5.png}
+\caption{PWM波形}
+\end{figure}
+
+\textbf{第二部分：系统的建模和控制设计}
+
+1. Boost DC/DC Converter 主电路的建模及控制参数设计
+
+见第一部分内容。
+
+2. 三相逆变全桥逆变器主电路的搭建、坐标变换及控制参数设计
+
+搭建三相逆变全桥逆变器仿真电路模型，见下图：
+\begin{figure}[H]
+\centering 
+\includegraphics[width=0.8\textwidth]{image3.png}
+\caption{三相逆变全桥逆变器仿真电路模型}
+\end{figure}
+
+三相光伏逆变器：通过三相全桥逆变器，受调制后 SVPWM 波控制，输出三相正弦电。
+\subsection{abc 到 dq0 变换（Park 变换）}
+Park 变换将三相静止坐标系 (abc) 转换为同步旋转坐标系 (dq0)，常用于电机控制和电力系统分析。
+
+\begin{equation}
+\begin{bmatrix}
+x_d \\
+x_q \\
+x_0
+\end{bmatrix}
+= \frac{2}{3}
+\begin{bmatrix}
+\cos\theta & \cos\left(\theta - \frac{2\pi}{3}\right) & \cos\left(\theta + \frac{2\pi}{3}\right) \\
+-\sin\theta & -\sin\left(\theta - \frac{2\pi}{3}\right) & -\sin\left(\theta + \frac{2\pi}{3}\right) \\
+\frac{1}{2} & \frac{1}{2} & \frac{1}{2}
+\end{bmatrix}
+\begin{bmatrix}
+x_a \\
+x_b \\
+x_c
+\end{bmatrix}
+\end{equation}
+或：
+\begin{align}
+x_d &= \frac{2}{3} \left[ x_a \cos\theta + x_b \cos\left(\theta - \frac{2\pi}{3}\right) + x_c \cos\left(\theta + \frac{2\pi}{3}\right) \right] \\
+x_q &= \frac{2}{3} \left[ -x_a \sin\theta - x_b \sin\left(\theta - \frac{2\pi}{3}\right) - x_c \sin\left(\theta + \frac{2\pi}{3}\right) \right] \\
+x_0 &= \frac{1}{3} (x_a + x_b + x_c)
+\end{align}
+其中，$x_a, x_b, x_c$ 是三相变量，$x_d, x_q$ 是变换后的直轴和交轴变量，$x_0$ 是零序分量，$\theta$ 是旋转角度。
+\subsection{dq0 到 abc 变换（逆 Park 变换）}
+
+逆 Park 变换将同步旋转坐标系 (dq0) 转换回三相静止坐标系 (abc)。
+
+\begin{equation}
+\begin{bmatrix}
+x_a \\
+x_b \\
+x_c
+\end{bmatrix}
+=
+\begin{bmatrix}
+\cos\theta & -\sin\theta & 1 \\
+\cos\left(\theta - \frac{2\pi}{3}\right) & -\sin\left(\theta - \frac{2\pi}{3}\right) & 1 \\
+\cos\left(\theta + \frac{2\pi}{3}\right) & -\sin\left(\theta + \frac{2\pi}{3}\right) & 1
+\end{bmatrix}
+\begin{bmatrix}
+x_d \\
+x_q \\
+x_0
+\end{bmatrix}
+\end{equation}
+
+或：
+\begin{align}
+x_a &= x_d \cos\theta - x_q \sin\theta + x_0 \\
+x_b &= x_d \cos\left(\theta - \frac{2\pi}{3}\right) - x_q \sin\left(\theta - \frac{2\pi}{3}\right) + x_0 \\
+x_c &= x_d \cos\left(\theta + \frac{2\pi}{3}\right) - x_q \sin\left(\theta + \frac{2\pi}{3}\right) + x_0
+\end{align}
+原理图中采集了负载侧的线电压，相电流以及角频率，通过与时间的积分得出相角偏移，作用于电压
+和电流的 abc 到 dq0 的变换，送入 PI 控制器，电压外环与目标电压进行对比，输出到电流内环，最后
+生成 SVPWM 波控制三相全桥逆变器。
+
+三相逆变器在dq坐标系下：
+
+\subsection{LC滤波器状态方程}
+\begin{align}
+L_f \frac{di_d}{dt} &= v_{id} - v_{od} + \omega L_f i_q \\
+L_f \frac{di_q}{dt} &= v_{iq} - v_{oq} - \omega L_f i_d \\
+C_f \frac{dv_{od}}{dt} &= i_d - i_{od} + \omega C_f v_{oq} \\
+C_f \frac{dv_{oq}}{dt} &= i_q - i_{oq} - \omega C_f v_{od}
+\end{align}
+
+\subsection{输出方程}
+\begin{align}
+v_{od} &= \text{输出电压d轴分量} \\
+v_{oq} &= \text{输出电压q轴分量} \\
+i_{od} &= \frac{v_{od}}{R_{load}} \quad (\text{电阻负载}) \\
+i_{oq} &= \frac{v_{oq}}{R_{load}}
+\end{align}
+
+\subsection{控制目标方程}
+输出电压幅值：
+\begin{equation}
+V_{out} = \sqrt{v_{od}^2 + v_{oq}^2}
+\end{equation}
+
+期望设定：$v_{oq}^* = 0$（q轴电压为零，实现单位功率因数）
+
+电流内环控制器设计过程如下：
+
+\subsection{电流环被控对象}
+忽略交叉耦合项，dq轴电流环可视为两个独立的一阶系统：
+\begin{align}
+G_{id}(s) &= \frac{1}{L_f s + R_L} \approx \frac{1}{L_f s} \\
+G_{iq}(s) &= \frac{1}{L_f s + R_L} \approx \frac{1}{L_f s}
+\end{align}
+其中$R_L$为电感寄生电阻。
+
+\subsection{考虑延时环节}
+PWM和采样造成的总延时：
+\begin{equation}
+T_d = T_s + T_{PWM} = \frac{1}{2f_{sw}} + \frac{1}{2f_{sw}} = \frac{1}{f_{sw}} = \SI{50}{\micro s}
+\end{equation}
+
+延时环节传递函数：
+\begin{equation}
+G_d(s) = e^{-sT_d} \approx \frac{1}{1 + sT_d + \frac{(sT_d)^2}{2}}
+\end{equation}
+
+\subsection{PI控制器设计}
+电流环PI控制器：
+\begin{equation}
+G_{ci}(s) = K_{pi} + \frac{K_{ii}}{s}
+\end{equation}
+
+\subsubsection{基于内模控制的参数整定}
+\begin{align}
+K_{pi} &= \frac{L_f}{2T_d} = \frac{3\times10^{-3}}{2\times50\times10^{-6}} = 30 \\
+K_{ii} &= \frac{R_L}{2T_d} \approx \frac{0.1}{2\times50\times10^{-6}} = 1000 \quad (\text{假设 } R_L = {0.1}{\Omega})
+\end{align}
+
+\subsubsection{基于带宽设计的参数整定}
+设电流环带宽 $f_{ci} = \SI{2}{kHz}$：
+\begin{align}
+K_{pi} &= 2\pi f_{ci} L_f = 2\pi\times2000\times3\times10^{-3} \approx 37.7 \\
+K_{ii} &= 2\pi f_{ci} R_L \approx 2\pi\times2000\times0.1 \approx 1257
+\end{align}
+
+\subsection{前馈解耦补偿}
+\begin{align}
+v_{id}^* &= v_{id}^{PI} - \omega L_f i_q + v_{od} \\
+v_{iq}^* &= v_{iq}^{PI} + \omega L_f i_d + v_{oq}
+\end{align}
+
+\subsection{推荐的电流环参数}
+\begin{align}
+K_{pi} &= 35 \\
+K_{ii} &= 1200
+\end{align}
+
+电压外环控制器设计过程如下：
+
+\subsection{电压环被控对象}
+电流环闭环后可近似为单位增益，电压环被控对象：
+\begin{equation}
+G_v(s) = \frac{1}{C_f s} \cdot \frac{1}{1 + sT_d}
+\end{equation}
+
+\subsection{PR控制器设计}
+为消除稳态误差，采用PR控制器：
+\begin{equation}
+G_{cv}(s) = K_{pv} + \frac{2K_{rv}\omega_c s}{s^2 + 2\omega_c s + \omega_0^2}
+\end{equation}
+其中$\omega_0 = 2\pi\times50 = \SI{314}{rad/s}$，$\omega_c$为谐振带宽。
+
+\subsection{基于带宽设计的参数整定}
+设电压环带宽 $f_{cv} = \SI{200}{Hz}$：
+\begin{align}
+K_{pv} &= 2\pi f_{cv} C_f = 2\pi\times200\times200\times10^{-6} \approx 0.251 \\
+K_{rv} &= 10 \sim 20 \quad (\text{根据谐波抑制要求调整}) \\
+\omega_c &= 2\pi\times5 = \SI{31.4}{rad/s} \quad (\text{谐振带宽})
+\end{align}
+
+\subsection{前馈补偿}
+\begin{align}
+i_d^* &= i_d^{PR} + \omega C_f v_{oq} + i_{od} \\
+i_q^* &= i_q^{PR} - \omega C_f v_{od} + i_{oq}
+\end{align}
+
+\subsection{推荐的电压环参数}
+\begin{align}
+K_{pv} &= 0.25 \\
+K_{rv} &= 15 \\
+\omega_c &= \SI{31.4}{rad/s}
+\end{align}
+
+SVPWM实现与调制策略如下：
+
+\subsection{空间矢量定义}
+参考电压矢量：
+\begin{equation}
+V_{ref} = v_\alpha + j v_\beta = \frac{2}{3}(v_a + \alpha v_b + \alpha^2 v_c), \quad \alpha = e^{j\frac{2\pi}{3}}
+\end{equation}
+
+\subsection{扇区判断}
+\begin{equation}
+\begin{cases}
+v_{ref1} = v_\beta \\
+v_{ref2} = \frac{\sqrt{3}}{2}v_\alpha - \frac{1}{2}v_\beta \\
+v_{ref3} = -\frac{\sqrt{3}}{2}v_\alpha - \frac{1}{2}v_\beta
+\end{cases}
+\end{equation}
+
+扇区号 $N$ 由$v_{ref1}, v_{ref2}, v_{ref3}$的符号决定。
+
+\subsection{作用时间计算}
+\begin{align}
+X &= \frac{\sqrt{3}v_\beta T_s}{V_{dc}} \\
+Y &= \frac{\frac{3}{2}v_\alpha + \frac{\sqrt{3}}{2}v_\beta}{V_{dc}}T_s \\
+Z &= \frac{-\frac{3}{2}v_\alpha + \frac{\sqrt{3}}{2}v_\beta}{V_{dc}}T_s
+\end{align}
+
+\subsection{调制深度限制}
+最大线性调制范围：
+\begin{equation}
+m_{max} = \frac{V_{dc}}{\sqrt{3}V_{out,max}} = \frac{100}{\sqrt{3}\times70} \approx 0.825
+\end{equation}
+
+过调制策略：当$m > 0.825$时采用过调制算法。
+
+3. 测试不同工况下的系统性能。
+
+工况一：$R_{load} = 10\Omega$，$V_{o}=50V$
+仿真结果如图所示：
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{image6.png}
+\caption{$R_{load} = 10\Omega$，$V_{o}=50V$输出电压波形}
+\end{figure}
+输出稳定时测量：
+$V_{od} \approx 49.94V$，$V_{oq} \approx 0V$，与理论值吻合。符合设计要求。
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{image17.png}
+\caption{$R_{load} = 10\Omega$，$V_{o}=50V$输出电流波形}
+\end{figure}
+输出稳定时测量：
+$I_{od} \approx 6.428A$，$I_{oq} \approx 0A$。
+
+工况二：$R_{load} = 50\Omega$，$V_{o}=50V$
+仿真结果如图所示：
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{image7.png}
+\caption{$R_{load} = 50\Omega$，$V_{o}=50V$输出电压波形}
+\end{figure}
+输出稳定时测量：
+$V_{od} \approx 50.48V$，$V_{oq} \approx 0V$，与理论值吻合。符合设计要求。
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{image16.png}
+\caption{$R_{load} = 50\Omega$，$V_{o}=50V$输出电流波形}
+\end{figure}
+输出稳定时测量：
+$I_{od} \approx 4.086A$，$I_{oq} \approx 0A$。
+
+工况三：$R_{load} = 10\Omega$，$V_{o}=60V$
+仿真结果如图所示：
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{image8.png}
+\caption{$R_{load} = 10\Omega$，$V_{o}=60V$输出电压波形}
+\end{figure}
+输出稳定时测量：
+$V_{od} \approx 59.70V$，$V_{oq} \approx 0V$，与理论值吻合。符合设计要求。
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{image14.png}
+\caption{$R_{load} = 10\Omega$，$V_{o}=60V$输出电流波形}
+\end{figure}
+输出稳定时测量：
+$I_{od} \approx 7.531A$，$I_{oq} \approx 0A$。
+
+工况四：$R_{load} = 50\Omega$，$V_{o}=60V$
+仿真结果如图所示：
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{image9.png}
+\caption{$R_{load} = 50\Omega$，$V_{o}=60V$输出电压波形}
+\end{figure}
+输出稳定时测量：
+$V_{od} \approx 60.50V$，$V_{oq} \approx 0V$，与理论值吻合。符合设计要求。
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{image15.png}
+\caption{$R_{load} = 50\Omega$，$V_{o}=60V$输出电流波形}
+\end{figure}
+输出稳定时测量：
+$I_{od} \approx 4.725A$，$I_{oq} \approx 0A$。
+
+工况五：$R_{load} = 10\Omega$，$V_{o}=70V$
+仿真结果如图所示：
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{image10.png}
+\caption{$R_{load} = 10\Omega$，$V_{o}=70V$输出电压波形}
+\end{figure}
+输出稳定时测量：
+$V_{od} \approx 62.24V$，$V_{oq} \approx 0V$，这是由于过调制，输出电压已低于设定值。
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{image13.png}
+\caption{$R_{load} = 10\Omega$，$V_{o}=70V$输出电流波形}
+\end{figure}
+输出稳定时测量：
+$I_{od} \approx 7.762A$，$I_{oq} \approx 0A$。
+
+工况六：$R_{load} = 50\Omega$，$V_{o}=70V$
+仿真结果如图所示：
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{image11.png}
+\caption{$R_{load} = 50\Omega$，$V_{o}=70V$输出电压波形}
+\end{figure}
+输出稳定时测量：
+$V_{od} \approx 64.53V$，$V_{oq} \approx 0V$，这是由于过调制，输出电压已低于设定值。
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{image12.png}
+\caption{$R_{load} = 50\Omega$，$V_{o}=70V$输出电流波形}
+\end{figure}
+输出稳定时测量：
+$I_{od} \approx 4.817A$，$I_{oq} \approx 0A$。
+
+输出电压一定时，当负载增大，输出电流均会有所上升，符合预期。
+\end{document}
