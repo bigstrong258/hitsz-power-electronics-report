@@ -1,0 +1,11 @@
+# LaTeX 编译产生的中间文件（必须忽略）
+*.aux
+*.log
+*.toc
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+*.out
+
+# 建议也忽略 PDF，只在 Release 时上传，或者根据老师要求决定是否追踪
+*.pdf
